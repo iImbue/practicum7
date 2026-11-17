@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RecycLoop - Material Gallery & Lightbox (Prac 7)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f9f4;
+            color: #1b4332;
+            margin: 0;
+            padding: 30px;
+        }
+
+        h1 { text-align: center; }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            max-width: 1100px;
+            margin: 30px auto;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+            aspect-ratio: 4 / 3;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+
+        /* Orientation / Hover Overlay */
+        .overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(27, 67, 50, 0.9), rgba(27, 67, 50, 0.2));
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover .overlay {
+            opacity: 1;
+        }
+
+        @media (orientation: portrait) {
+            .overlay { opacity: 0.85; } /* Always visible in portrait mode */
+        }
+
+        /* Lightbox Modal */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(8, 28, 21, 0.92);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .lightbox img {
+            max-width: 85%;
+            max-height: 75vh;
+            border: 4px solid #95d5b2;
+            border-radius: 10px;
+        }
+
+        .lightbox-caption {
+            color: #d8f3dc;
+            font-size: 1.2rem;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+
+        .close-lightbox {
+            position: absolute;
+            top: 25px;
+            right: 35px;
+            color: white;
+            font-size: 2.5rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>♻ RecycLoop Upcycled & Sorted Material Gallery</h1>
+    <p style="text-align: center;">Click any material stream below to inspect in Lightbox view.</p>
+
+    <div class="gallery-grid">
+        <div class="gallery-item" onclick="openLightbox(this)">
+            <img src="https://placehold.co/600x450/2d6a4f/white?text=Reprocessed+PET+Pellets" alt="Reprocessed PET Pellets" loading="lazy">
+            <div class="overlay">
+                <h3>PET Flakes & Pellets</h3>
+                <p>98% purity food-grade recycled resin</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" onclick="openLightbox(this)">
+            <img src="https://placehold.co/600x450/40916c/white?text=E-Waste+Gold+Recovery" alt="E-Waste Circuit Recovery" loading="lazy">
+            <div class="overlay">
+                <h3>E-Waste Circuit Boards</h3>
+                <p>Precious metal extraction & safe battery disposal</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" onclick="openLightbox(this)">
+            <img src="https://placehold.co/600x450/1b4332/white?text=Smelted+Aluminum+Ingots" alt="Smelted Aluminum Ingots" loading="lazy">
+            <div class="overlay">
+                <h3>Reclaimed Aluminum</h3>
+                <p>Saves 95% energy compared to virgin ore smelting</p>
+            </div>
+        </div>
+
+        <div class="gallery-item" onclick="openLightbox(this)">
+            <img src="https://placehold.co/600x450/52b788/white?text=Upcycled+Kraft+Pulp" alt="Upcycled Kraft Pulp" loading="lazy">
+            <div class="overlay">
+                <h3>Industrial Kraft Pulp</h3>
+                <p>Zero-bleach corrugated packaging feedstock</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox Container -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <span class="close-lightbox">&times;</span>
+        <img id="lightbox-img" src="" alt="Expanded View">
+        <div id="lightbox-caption" class="lightbox-caption"></div>
+    </div>
+
+    <script>
+        function openLightbox(element) {
+            const img = element.querySelector('img');
+            const title = element.querySelector('h3').innerText;
+            const desc = element.querySelector('p').innerText;
+            document.getElementById('lightbox-img').src = img.src;
+            document.getElementById('lightbox-caption').innerText = title + " — " + desc;
+            document.getElementById('lightbox').style.display = 'flex';
+        }
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>
